@@ -11,6 +11,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Set image tag
+        id: set_tag
+        run: echo "IMAGE_TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
  
       
       - name: Login to Docker Hub
@@ -25,14 +29,13 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python:${{ github.ref_name }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python:${{ steps.set_tag.outputs.IMAGE_TAG }}
           labels: |
-            org.opencontainers.image.version=${{ github.ref_name }}
+            org.opencontainers.image.version=${{ steps.set_tag.outputs.IMAGE_TAG }}
  
 
       - name: Update latest tag 
         uses: silverlyra/latest-image-action@v0.1.0 
         with: 
           repository: ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python
-          candidate-tag: ${{ github.ref_name }}
-          latest-tag: latest
+          candidate-tag: ${{ steps.set_tag.outputs.IMAGE_TAG }}
