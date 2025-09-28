@@ -14,7 +14,7 @@ jobs:
 
       - name: Set image tag
         id: set_tag
-        run: echo "IMAGE_TAG=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+        run: echo "IMAGE_TAG=0.0.0-sha.${GITHUB_SHA::7}" >> $GITHUB_OUTPUT 
  
       
       - name: Login to Docker Hub
@@ -29,9 +29,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python:${{ steps.set_tag.outputs.IMAGE_TAG }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python:${{ github.sha::7 }}
           labels: |
             org.opencontainers.image.version=${{ steps.set_tag.outputs.IMAGE_TAG }}
  
@@ -40,4 +38,5 @@ jobs:
         uses: silverlyra/latest-image-action@v0.1.0 
         with: 
           repository: ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python
-          candidate-tag: ${{ steps.set_tag.outputs.IMAGE_TAG }}
+          candidate-tag: ${{ github.sha::7 }} 
+          version-source: label:org.opencontainers.image.version
