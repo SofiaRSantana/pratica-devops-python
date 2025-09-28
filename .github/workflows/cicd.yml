@@ -29,7 +29,9 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python:${{ steps.set_tag.outputs.IMAGE_TAG }}
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python:${{ steps.set_tag.outputs.IMAGE_TAG }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python:latest
           labels: |
             org.opencontainers.image.version=${{ steps.set_tag.outputs.IMAGE_TAG }}
  
