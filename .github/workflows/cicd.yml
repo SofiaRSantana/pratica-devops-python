@@ -29,7 +29,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python:${{ github.sha::7 }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python:${{ env.GITHUB_SHA::7 }}
           labels: |
             org.opencontainers.image.version=${{ steps.set_tag.outputs.IMAGE_TAG }}
  
@@ -38,5 +38,5 @@ jobs:
         uses: silverlyra/latest-image-action@v0.1.0 
         with: 
           repository: ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python
-          candidate-tag: ${{ github.sha::7 }} 
+          candidate-tag: ${{ env.GITHUB_SHA::7 }} 
           version-source: label:org.opencontainers.image.version
