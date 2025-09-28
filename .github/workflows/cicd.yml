@@ -25,5 +25,12 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python:latest, ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python:${{ github.ref_name }}
  
+
+      - name: Update latest tag 
+        uses: silverlyra/latest-image-action@v0.1.0 
+        with: 
+          repository: ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python
+          candidate-tag: ${{ github.ref_name }}
+          latest-tag: latest
