@@ -26,11 +26,12 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python:${{ github.ref_name }}
+          labels: |
+            org.opencontainers.image.version=${{ steps.set_tag.outputs.IMAGE_TAG }}
  
 
       - name: Update latest tag 
         uses: silverlyra/latest-image-action@v0.1.0 
         with: 
           repository: ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python
-          candidate-tag: ${{ github.ref_name }}
-          latest-tag: latest
+          candidate-tag: ${{ steps.set_tag.outputs.IMAGE_TAG }}
