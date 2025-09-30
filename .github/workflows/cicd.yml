@@ -32,6 +32,6 @@ jobs:
       - name: Update Version Tags Action
         uses: cssnr/update-version-tags-action@v1.2.0
         with:
-          tag: v1.0.1
+          tag: ${{ github.ref_name }}
  
       
