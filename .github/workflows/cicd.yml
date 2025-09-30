@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Update tag to latest if the version is higher
-        uses: akhilerm/update-latest-docker-tag@v1
+        uses: silverlyra/latest-image-action@v0.1.0
         with:
           image: usuario?repoitorio-imagem
           candidate-tag: 1.3.0
