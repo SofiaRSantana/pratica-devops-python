@@ -2,8 +2,8 @@ name: CI/CD Docker
  
 on:
   push:
-    tags:
-      - 'v*.*.*' 
+    branch: ["main"]
+
  
 jobs:
   build-and-push:
@@ -26,16 +26,12 @@ jobs:
         with:
           context: .
           push: true
-          tags: usuario/minha-app:${{ github.ref_name }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python:latest, ${{ secrets.DOCKERHUB_USERNAME }}/pratica-devops-python:${{ github.sha }}
       
 
-      - name: Update tag to latest if the version is higher
-        uses: akhilerm/update-latest-docker-tag@v1
+      - name: Update Version Tags Action
+        uses: cssnr/update-version-tags-action@v1.2.0
         with:
-          image: usuario/minha-app
-          candidate-tag: ${{ github.ref_name }}
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          
+          tag: v1.0.1
  
       
